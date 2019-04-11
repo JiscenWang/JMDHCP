@@ -496,7 +496,7 @@ iptables_fw_init(void)
 
     /*Jerome changed CHAIN_OUTGOING*/
     iptables_do_command("-t nat -A POSTROUTING -j " CHAIN_OUTGOING);
-    iptables_do_command("-t nat -I " CHAIN_OUTGOING " -s 192.168.168.0/24 -o %s -j MASQUERADE", config->external_interface);
+    iptables_do_command("-t nat -I " CHAIN_OUTGOING " -s 10.10.10.0/24 -o %s -j MASQUERADE", config->external_interface);
 
     UNLOCK_CONFIG();
 

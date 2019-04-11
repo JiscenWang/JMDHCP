@@ -2146,10 +2146,11 @@ int dhcp_data_req(struct dhcp_conn_t *conn,
     case DHCP_AUTH_DNAT:
     case DHCP_AUTH_NONE:
       /* undo destination NAT */
+        /* Just for DHCP
       if (dhcp_undoDNAT(conn, packet, &length, 1, &do_checksum) && !allowed) {
     	debug(LOG_DEBUG, "dhcp_undoDNAT() returns true");
         return 0;
-      }
+      }*/
       break;
 
     case DHCP_AUTH_DROP:
@@ -3339,11 +3340,11 @@ int dhcp_receive_ip(struct dhcp_ctx *ctx, uint8_t *pack, size_t len) {
 
       /* Destination NAT if request to unknown web server */
     case DHCP_AUTH_DNAT:
-
+        /* only for DHCP server
       if (dhcp_doDNAT(conn, pack, len, 1, &do_checksum) && !allowed) {
         debug(LOG_DEBUG, "dropping packet; not nat'ed");
         return 0;
-      }
+      }*/
       break;
 
       /*Jerome, no splash state
