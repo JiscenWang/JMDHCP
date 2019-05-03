@@ -4,7 +4,7 @@
 
 noinst_LIBRARIES = libgateway.a
 
-bin_PROGRAMS = JMtry 
+bin_PROGRAMS = JMDHCP 
  
 AM_CPPFLAGS = \
 	-I${top_srcdir}/libhttpd/ \
@@ -12,9 +12,9 @@ AM_CPPFLAGS = \
 	-Wall \
 	-Wextra \
 	-Wno-unused-parameter
-JMtry_LDADD = libgateway.a $(top_builddir)/libhttpd/libhttpd.la
+JMDHCP_LDADD = libgateway.a $(top_builddir)/libhttpd/libhttpd.la
 
-JMtry_SOURCES = main.c
+JMDHCP_SOURCES = main.c
 
 libgateway_a_SOURCES = jconfig.c \
 	debug.c \
@@ -46,5 +46,3 @@ noinst_HEADERS = common.h \
 	jdhcp.h \
 	jmodule.h \
 	jnet.h
-
-wdctl_LDADD = libgateway.a

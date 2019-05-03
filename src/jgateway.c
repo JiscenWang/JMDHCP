@@ -685,34 +685,6 @@ main_loop(void)
           dhcp->rawif[i].sctx = &sctx;
 	}
 
-
-	/* Initializes the web server */
-    debug(LOG_NOTICE, "Creating web server on %s:%d", config->gw_address, config->gw_port);
-    if ((webserver = httpdCreate(config->gw_address, config->gw_port)) == NULL) {
-        debug(LOG_ERR, "Could not create web server: %s", strerror(errno));
-        exit(1);
-    }
-    register_fd_cleanup_on_fork(webserver->serverSock);
-
-    /*Jerome: Add J-module*/
-    net_select_reg(&sctx, webserver->serverSock,
-                   SELECT_READ, (select_callback)jmodulehttpconnect,
-				   webserver, 0);
-
-    /*End, Jerome*/
-
-    debug(LOG_DEBUG, "Assigning callbacks to web server");
-    httpdAddCContent(webserver, "/", "jmodule", 0, NULL, http_callback_jmodule);
-    httpdAddCContent(webserver, "/jmodule", "", 0, NULL, http_callback_jmodule);
-    httpdAddCContent(webserver, "/jmodule", "about", 0, NULL, http_callback_about);
-
-    httpdSetFileBase(webserver,"/home/jerome/files");
-    httpdAddFileContent(webserver, "/jmodule", "download", 0, NULL,"tryit.mp3");
-
-    httpdSetErrorFunction(webserver, 404, http_callback_404);
-    /*libhttpd has no 302 function so that 304 instead*/
-//    httpdSetErrorFunction(webserver, 304, http_callback_302);
-
     fw_destroy();
     /* Then initialize it */
     if (!fw_init()) {
